@@ -1,4 +1,4 @@
-package com.guidev.concurrent_orders;
+package com.guidev.concurrentorders;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
