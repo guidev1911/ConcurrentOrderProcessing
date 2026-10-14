@@ -20,14 +20,32 @@ public class ConcurrencyController {
 
         long start = System.nanoTime();
 
-        orderConcurrencyService.processOrders(orders);
+        orderConcurrencyService.processOrdersWithPlatformThreads(orders);
 
-        long end = System.nanoTime();
+        long duration = (System.nanoTime() - start) / 1_000_000;
 
         return Map.of(
                 "strategy", "Platform Threads",
                 "orders", orders,
-                "durationMs", (end - start) / 1_000_000
+                "durationMs", duration
+        );
+    }
+
+    @PostMapping("/virtual")
+    public Map<String, Object> testVirtualThreads(
+            @RequestParam(defaultValue = "100") int orders
+    ) throws InterruptedException {
+
+        long start = System.nanoTime();
+
+        orderConcurrencyService.processOrdersWithVirtualThreads(orders);
+
+        long duration = (System.nanoTime() - start) / 1_000_000;
+
+        return Map.of(
+                "strategy", "Virtual Threads",
+                "orders", orders,
+                "durationMs", duration
         );
     }
 }
