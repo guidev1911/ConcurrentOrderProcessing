@@ -23,11 +23,13 @@ public class ConcurrencyController {
         orderConcurrencyService.processOrdersWithPlatformThreads(orders);
 
         long duration = (System.nanoTime() - start) / 1_000_000;
+        double ordersPerSecond = orders / (duration / 1000.0);
 
         return Map.of(
                 "strategy", "Platform Threads",
                 "orders", orders,
-                "durationMs", duration
+                "durationMs", duration,
+                "ordersPerSecond", Math.round(ordersPerSecond * 100.0) / 100.0
         );
     }
 
@@ -41,11 +43,13 @@ public class ConcurrencyController {
         orderConcurrencyService.processOrdersWithVirtualThreads(orders);
 
         long duration = (System.nanoTime() - start) / 1_000_000;
+        double ordersPerSecond = orders / (duration / 1000.0);
 
         return Map.of(
                 "strategy", "Virtual Threads",
                 "orders", orders,
-                "durationMs", duration
+                "durationMs", duration,
+                "ordersPerSecond", Math.round(ordersPerSecond * 100.0) / 100.0
         );
     }
 }
